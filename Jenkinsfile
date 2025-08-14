@@ -38,7 +38,7 @@ pipeline {
             }
         }
 
-        stge('Integration Test') {
+        stage('Integration Test') {
             steps {
                 sh 'curl http://localhost:8080'
             }
