@@ -34,7 +34,7 @@ pipeline {
 
         stage('Local Deployment') {
             steps {
-                sh 'java -jar target/kk-jenkins-parms-mvn-sb-0.0.1-SNAPSHOT.jar'
+                sh 'java -jar target/kk-jenkins-parms-mvn-sb-0.0.1-SNAPSHOT.jar > /dev/null &'
             }
         }
 
