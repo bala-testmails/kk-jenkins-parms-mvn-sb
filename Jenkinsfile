@@ -8,13 +8,6 @@ pipeline {
     }
 
     stages {
-        stage('Echo Version') {
-            steps {
-                sh 'echo Print Maven Version'
-                sh 'mvn -version'
-            }
-        }
-        
         stage('Build') {
             steps {
                 // Get some code from Github repository
@@ -25,7 +18,7 @@ pipeline {
             }
         }
         
-        stage('Unit Test') {
+        stage('Test') {
             steps {
                 // Script blocks are used to execute groovy code
                 // script {
@@ -36,6 +29,18 @@ pipeline {
                 // }
                 
                 sh 'mvn test'
+            }
+        }
+
+        stage('Local Deployment') {
+            steps {
+                sh 'java -jar target/kk-jenkins-parms-mvn-sb-0.0.1-SNAPSHOT.jar`
+            }
+        }
+
+        stge('Integration Test') {
+            steps {
+                sh 'curl http://localhost:8080'
             }
         }
     }
