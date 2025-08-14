@@ -8,6 +8,15 @@ pipeline {
     }
 
     stages {
+
+        stage('Echo Version') {
+            steps {
+                sh 'echo Print Maven Version'
+                sh 'mvn -version'
+                sh "echo Sleep-Time - ${params.SLEEP_TIME}, Port - ${params.APP_PORT}, Branch - ${params.BRANCH_NAME}"
+            }
+        }
+        
         stage('Build') {
             steps {
                 // Get some code from Github repository
@@ -34,31 +43,33 @@ pipeline {
 
         stage('Local Deployment') {
             steps {
-                sh '''
-                    java -jar target/kk-jenkins-parms-mvn-sb-0.0.1-SNAPSHOT.jar > /dev/null &
+                sh 'java -jar target/kk-jenkins-parms-mvn-sb-0.0.1-SNAPSHOT.jar > /dev/null &'
+                // sh '''
+                //     java -jar target/kk-jenkins-parms-mvn-sb-0.0.1-SNAPSHOT.jar > /dev/null &
     
-                    # Set timeout in seconds
-                    TIMEOUT=60
-                    START=$(date +%s)
+                //     # Set timeout in seconds
+                //     TIMEOUT=60
+                //     START=$(date +%s)
                     
-                    # Wait until app responds or timeout occurs
-                    until curl -s http://localhost:8090 >/dev/null 2>&1; do
-                      echo "Waiting for app to start..."
-                      sleep 2
+                //     # Wait until app responds or timeout occurs
+                //     until curl -s http://localhost:8090 >/dev/null 2>&1; do
+                //       echo "Waiting for app to start..."
+                //       sleep 2
                     
-                      NOW=$(date +%s)
-                      ELAPSED=$((NOW - START))
-                      if [ $ELAPSED -ge $TIMEOUT ]; then
-                        echo "Timeout! App did not start within $TIMEOUT seconds."
-                        exit 1
-                      fi
-                    done
-                '''
+                //       NOW=$(date +%s)
+                //       ELAPSED=$((NOW - START))
+                //       if [ $ELAPSED -ge $TIMEOUT ]; then
+                //         echo "Timeout! App did not start within $TIMEOUT seconds."
+                //         exit 1
+                //       fi
+                //     done
+                // '''
             }
         }
 
         stage('Integration Test') {
             steps {
+                sh "sleep ${params.SLEEP_TIME}"
                 sh 'curl http://localhost:8090'
             }
         }
