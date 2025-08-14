@@ -40,7 +40,7 @@ pipeline {
 
         stage('Integration Test') {
             steps {
-                sh 'curl http://localhost:8080'
+                sh 'curl http://localhost:8090'
             }
         }
     }
