@@ -1,1 +1,1 @@
-# jenkins-mvn-spring-boot-hello-world
+Springboot REST API sample maven project
